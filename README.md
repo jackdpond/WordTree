@@ -68,7 +68,7 @@ For this tree:
 The In-Order traversal is 4-2-1-5-3-6. 
 
 ##### A note
-     this traversal is called ‘In Order’ because when used on a binary *search* tree—a binary tree with an additional rule—this traversal prints the nodes in sorted order.
+this traversal is called ‘In Order’ because when used on a binary *search* tree—a binary tree with an additional rule—this traversal prints the nodes in sorted order.
 
 ### Post-Order
 The last traversal is also similar to the previous two, with a predictable tweak. Apply the rule to the left child and the right child before printing the node. This gets a little surprising since all the descendants of a node get printed before it does.
