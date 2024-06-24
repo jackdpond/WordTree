@@ -32,37 +32,39 @@ There are four tree traversals that are key to play the game:
 ### Breadth First
 This is the simplest traversal. Simply take the first layer of the tree, then the second, then the third, and so on, always from left to right.
 For this tree:
-
+```
                      1
                     / \
                    2   3
                   /   / \
                  4   5   6
-
+```
 The breadth first traversal would be 1-2-3-4-5-6.
 
 ### Pre-Order
 Pre-Order is the first of the ‘depth first’ searches. It is a recursive traversal, meaning that the traverser uses the same rule in a nested fashion—or the rule contains an application of itself. The rule is: print a node, then apply the rule to the left child, then apply the rule to the right child. If a node doesn’t have a left child, move the right. If it doesn’t have a right child, then that branch of the algorithm is done and you can move on to a right child higher up or finish.
 
 For this tree:
+```
                      1
                     / \
                    2   3
                   /   / \
                  4   5   6
-
+```
 The pre-order traversal would be 1-2-4-3-5-6.
 
 ### In-Order Traversal
 This traversal is similar to pre-order, but in a different order. First, apply the rule to the left child of the node, then print the node, then apply the rule to the right child of the node. If a node does not have a left child, print the node then move on to the right child. If a node doesn’t have a right child, then that branch of the algorithm is done and you can move on to a right child node up the tree, or finish.
 
 For this tree:
+```
                      1
                     / \
                    2   3
                   /   / \
                  4   5   6
-
+```
 The In-Order traversal is 4-2-1-5-3-6. 
 
 ##### A note
@@ -72,12 +74,13 @@ The In-Order traversal is 4-2-1-5-3-6.
 The last traversal is also similar to the previous two, with a predictable tweak. Apply the rule to the left child and the right child before printing the node. This gets a little surprising since all the descendants of a node get printed before it does.
 
 For this tree:
+```
                      1
                     / \
                    2   3
                   /   / \
                  4   5   6
-
+```
 The Post-Order traversal is 4-2-1-5-6-3-1.
 
 ## Gameplay
@@ -86,6 +89,7 @@ The Post-Order traversal is 4-2-1-5-6-3-1.
 For example: 
 letters: ADEELPS
 these may be arranged like so:
+```
                      p
                     / \
                    l   s
@@ -93,7 +97,7 @@ these may be arranged like so:
                  e   a   e
                           \
                            d
-
+```
 pre-order: pleased
 in-order: elapsed
 
