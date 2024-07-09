@@ -202,7 +202,7 @@ def solutions2json(solutions):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_file", type=str)
-    parser.add_argument("--output_folder", type=str)
+    parser.add_argument("--output_file", type=str)
     parser.add_argument("--min_combo", type=int, default=2)
     args = parser.parse_args()
 
