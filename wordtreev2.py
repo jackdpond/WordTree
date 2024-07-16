@@ -4,6 +4,7 @@ import json
 from pretty_print_tree import pretty_print_tree
 import argparse
 import numpy as np
+from time import time
 
 def get_permutations(s):
     permutations = itertools.permutations(s)
@@ -127,21 +128,21 @@ def make_tree(combo, array):
 def check_tree(tree, n, words):
     #words = find_words(len(combo))
     #tree = make_tree(combo, array)
-
     count = 0
-    pre = pre_order(tree)
-    ino = in_order(tree)
-    post = post_order(tree)
-    bf = breadth_first(tree)
-    true_trav = []
     used = []
-    for trav in [pre, ino, post, bf]:
-        if trav in words and trav not in used:
+    checker = {"pre-order": pre_order,
+               "in-order": in_order,
+               "post-order": post_order,
+               "breadth-first": breadth_first}
+    traversals = {}
+    for key in checker.keys():
+        word = checker[key](tree)
+        if word in words and word not in used:
+            used.append(word)
+            traversals[key] = word
             count += 1
-            used.append(trav)
-            true_trav.append(trav)
     if count >= n:
-        return tree, true_trav
+        return (("tree", tree2tuple(tree)), ("traversals", tree2tuple(traversals)))
     else:
         return None
 
@@ -155,20 +156,33 @@ def tuple2tree(trees):
     for tree in trees:
         solutions.append(dict(tree))
     return solutions
+
+def tuple2entry(tup):
+    solutions = []
+    for entry in tup:
+        solution = dict(entry)
+        solution['tree'] = dict(solution['tree'])
+        solution['traversals'] = dict(solution['traversals'])
+        solutions.append(solution)
+    return solutions
+
     
 
 def check_word(s,n, solutions, words, trees):
     combos = get_permutations(s)
     good_words = set()
-    tree_set = set()
+    entry_set = set()
     for combo in combos:
         for t in trees:
             tree = make_tree(combo, t)
             result = check_tree(tree, n, words)
             if result: 
-                tree_set.add(tree2tuple(tree))
-                good_words.update(result[1])
-    results = tuple2tree(tree_set)
+                entry_set.add(result)
+                gooders = []
+                for value in result[1][1]:
+                    gooders.append(value[1])
+                good_words.update(gooders)
+    results = tuple2entry(entry_set)
     solutions[tuple(good_words)] = results
 
 
@@ -239,10 +253,16 @@ if __name__ == "__main__":
     if args.solve:
         solve(args.solve, args.solutions)
 
-
+    start_time = time()
     words = assemble(args.input_file)
-    trees = get_trees([0], 0, max = 5)
+    print(f'assemble time: {round(time()-start_time, 1)}')
+    assemble_time = time()
+    trees = get_trees([0], 0, max = 8)
+    print(f'get trees time: {round(time()-assemble_time, 1)}')
+    tree_time = time()
     solutions = get_solutions(args.min_combo, words, trees)
+    print(f'get solutioins time: {round(time()-tree_time, 1)}')
 
     solutions2json(solutions)
+    print(f'total time: {round(time() - start_time, 1)}')
 
