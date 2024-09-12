@@ -233,7 +233,7 @@ def solve(word, trees=True):
             print("List of possible trees:")
             for item in value:
                 if trees:
-                    nitem = str2int(item)
+                    nitem = str2int(item["tree"])
                     print(pretty_print_tree(nitem))
                     print('-'*50)
                 else:
@@ -253,16 +253,17 @@ if __name__ == "__main__":
     if args.solve:
         solve(args.solve, args.solutions)
 
-    start_time = time()
-    words = assemble(args.input_file)
-    print(f'assemble time: {round(time()-start_time, 1)}')
-    assemble_time = time()
-    trees = get_trees([0], 0, max = 8)
-    print(f'get trees time: {round(time()-assemble_time, 1)}')
-    tree_time = time()
-    solutions = get_solutions(args.min_combo, words, trees)
-    print(f'get solutioins time: {round(time()-tree_time, 1)}')
+    else:
+        start_time = time()
+        words = assemble(args.input_file)
+        print(f'assemble time: {round(time()-start_time, 1)}')
+        assemble_time = time()
+        trees = get_trees([0], 0, max = 8)
+        print(f'get trees time: {round(time()-assemble_time, 1)}')
+        tree_time = time()
+        solutions = get_solutions(args.min_combo, words, trees)
+        print(f'get solutioins time: {round(time()-tree_time, 1)}')
 
-    solutions2json(solutions)
-    print(f'total time: {round(time() - start_time, 1)}')
+        solutions2json(solutions)
+        print(f'total time: {round(time() - start_time, 1)}')
 

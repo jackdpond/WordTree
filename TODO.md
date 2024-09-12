@@ -1,0 +1,3 @@
+- Finish debugging pretty_print_tree.py
+- Make more usable, add instructions for use
+- Talk to Dr. Bean about algorithm and website
