@@ -1,39 +1,51 @@
-// script.js
+let tree = [];
+let cursorIndex = 0;
 
-let currentNode = 1;
+function initializeTree() {
+    tree = ['_']; // Start with one empty node
+    renderTree();
+}
 
-const nodes = document.querySelectorAll(".node");
-const letters = document.querySelectorAll(".letter");
-const nextButton = document.getElementById("next");
-const backButton = document.getElementById("back");
+function renderTree() {
+    const treeContainer = document.querySelector('.tree');
+    treeContainer.innerHTML = '';
 
-// Add letter to the current node
-letters.forEach(letter => {
-    letter.addEventListener("click", () => {
-        nodes[currentNode - 1].textContent = letter.textContent;
-        letter.disabled = true;
-        nodes[currentNode - 1].classList.remove("dashed");
-        nodes[currentNode - 1].classList.add("filled");
+    tree.forEach((node, index) => {
+        const treeNode = document.createElement('div');
+        treeNode.classList.add('tree-node');
+        treeNode.textContent = node === '_' ? '○' : node;
+        if (index === cursorIndex) {
+            treeNode.classList.add('cursor');
+        }
+        treeContainer.appendChild(treeNode);
     });
-});
+}
 
-// Move to the next node
-nextButton.addEventListener("click", () => {
-    if (currentNode < nodes.length) {
-        currentNode++;
+function selectLetter(button) {
+    const letter = button.textContent;
+    if (!tree.includes(letter)) {
+        tree[cursorIndex] = letter;
+        button.disabled = true;
+        button.textContent = '○';
+        moveCursor(1);
+        renderTree();
     }
-});
+}
 
-// Move to the previous node
-backButton.addEventListener("click", () => {
-    if (currentNode > 1) {
-        currentNode--;
+function moveCursor(direction) {
+    const newIndex = cursorIndex + direction;
+    if (newIndex >= 0 && newIndex < tree.length) {
+        cursorIndex = newIndex;
+        renderTree();
     }
-});
+}
 
-// Clear the current node when backspace is pressed
-backButton.addEventListener("click", () => {
-    nodes[currentNode - 1].textContent = "";
-    nodes[currentNode - 1].classList.add("dashed");
-    nodes[currentNode - 1].classList.remove("filled");
-});
+function deleteLetter() {
+    if (cursorIndex > 0) {
+        cursorIndex--;
+        tree[cursorIndex] = '_';
+        renderTree();
+    }
+}
+
+window.onload = initializeTree;

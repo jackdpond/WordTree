@@ -9,24 +9,24 @@
 <body>
     <div class="game-container">
         <div class="tree">
-            <div class="node" id="node-1">P</div>
-            <div class="node" id="node-2">L</div>
-            <div class="node" id="node-3"></div>
+            <!-- Dynamic tree structure will be added here -->
         </div>
-
-        <div class="letter-bank">
-            <button class="letter">A</button>
-            <button class="letter">D</button>
-            <button class="letter">E</button>
-            <button class="letter">E</button>
-            <button class="letter">L</button>
-            <button class="letter">P</button>
-            <button class="letter">S</button>
-            <button class="control" id="next">&#8594;</button>
-            <button class="control" id="back">&#8592;</button>
+        <div class="letter-buttons">
+            <button class="letter" onclick="selectLetter(this)">A</button>
+            <button class="letter" onclick="selectLetter(this)">B</button>
+            <button class="letter" onclick="selectLetter(this)">C</button>
+            <button class="letter" onclick="selectLetter(this)">D</button>
+            <button class="letter" onclick="selectLetter(this)">E</button>
+            <button class="letter" onclick="selectLetter(this)">F</button>
+            <button class="letter" onclick="selectLetter(this)">G</button>
+            <button class="letter" onclick="selectLetter(this)">H</button>
+        </div>
+        <div class="control-buttons">
+            <button class="arrow" onclick="moveCursor(-1)">&#8592;</button>
+            <button class="arrow" onclick="moveCursor(1)">&#8594;</button>
+            <button class="delete" onclick="deleteLetter()">&#9003;</button>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
