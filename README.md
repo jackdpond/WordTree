@@ -2,6 +2,21 @@
 
 A new word game involving binary trees, anagrams, and tree traversals. This repo contains the code used to find all possible solutions for words within a given bank of words of the same length.
 
+## Table of Contents
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+  - [Unix/macOS](#unixmacos)
+  - [Windows](#windows)
+- [Running the Game](#running-the-game)
+- [Game Rules](#game-rules)
+- [Project Structure](#project-structure)
+- [Development](#development)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
+
+## Demo
+
 ![Demo](resources/word_tree_demo.gif "Game Demo")
 
 ## Prerequisites
@@ -69,8 +84,9 @@ The project is organized into several key directories:
 - `solutions/` stores generated game solutions and data
 - `resources/` contains lists of valid words that count for the game
 
-## Troubleshooting
+## Development
 
+## Troubleshooting
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
