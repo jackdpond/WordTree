@@ -1,0 +1,27 @@
+{
+    "word": "demos",
+    "anagrams": ["demos", "domes", "modes"],
+    "solutions": [
+        {
+            "tree": ["s", "e", "", "d", "m", "", "", "", "", "", "o", "", "", "", ""],
+            "traversals": {
+                "pre-order": "domes",
+                "in-order": "demos"
+            }
+        },
+        {
+            "tree": ["d", "", "o", "", "", "m", "s", "", "", "", "", "e", "", "", ""],
+            "traversals": {
+                "pre-order": "domes",
+                "in-order": "modes"
+            }
+        },
+        {
+            "tree": ["d", "o", "e", "m", "", "", "s", "", "", "", "", "", "", "", ""],
+            "traversals": {
+                "in-order": "modes",
+                "post-order": "domes"
+            }
+        }
+    ]
+}

@@ -1,32 +1,22 @@
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 import json
-import random
 import os
 
 app = Flask(__name__, static_folder='.')
 CORS(app)  # Enable CORS for all routes
 
-def get_random_word():
-    # Get the absolute path to the solutions file
+def get_demo_word():
+    # Get the absolute path to the demo solution file
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    solutions_path = os.path.join(os.path.dirname(current_dir), 'solutions', 'solutions_5.json')
+    demo_path = os.path.join(current_dir, 'demo_solution.json')
     
-    with open(solutions_path, 'r') as f:
-        solutions = json.load(f)
-    
-    word_key = random.choice(list(solutions.keys()))
-    word_solutions = solutions[word_key]
-    
-    return {
-        "word": word_key.split('/')[0],
-        "anagrams": word_key.split('/'),
-        "solutions": word_solutions
-    }
+    with open(demo_path, 'r') as f:
+        return json.load(f)
 
 @app.route('/api/random-word')
 def random_word():
-    return jsonify(get_random_word())
+    return jsonify(get_demo_word())
 
 @app.route('/')
 def index():
