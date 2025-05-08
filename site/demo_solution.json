@@ -13,7 +13,7 @@
             "tree": ["d", "", "o", "", "", "m", "s", "", "", "", "", "e", "", "", ""],
             "traversals": {
                 "pre-order": "domes",
-                "in-order": "modes"
+                "in-order": "demos"
             }
         },
         {
