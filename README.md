@@ -1,117 +1,79 @@
 # WordTree
+
 A new word game involving binary trees, anagrams, and tree traversals. This repo contains the code used to find all possible solutions for words within a given bank of words of the same length.
 
-# WordTree: The guide
+## Overview
+[Add screenshot/GIF here]
+[Brief description of game mechanics and features]
 
-## trees: 
-A tree is a kind of graph or diagram. It is a set of nodes with connections. It is hierarchical: A tree has levels. The one rule for a tree is that it may have however many children, but only one parent. A node cannot share children with another node. The following is a tree:
+## Prerequisites
+- Python 3.x
+- pip
 
-                      1
-                     / \
-                    2   3
-                   /   / \
-                  4   5   6
+## Installation
 
-The following is not a tree:
-
-                    1   2
-                     \ /
-                      3   4
-                       \ / \
-                        5   6
-                             \
-                              7
-
-This is not a tree because the 3 node and the 5 node both have two parents.
-
-In this game, we will add an additional restraint. We will only consider binary trees, which have the additional rule that a node may only have two children. The first example above is a binary tree since each node has 2 children or less.
-
-## Traversals
-There are four tree traversals that are key to play the game: 
-
-### Breadth First
-This is the simplest traversal. Simply take the first layer of the tree, then the second, then the third, and so on, always from left to right.
-For this tree:
+### Unix/macOS
+```bash
+cd Documents                                              # Navigate to Documents folder
+mkdir WordTree_Game                                       # Make a new folder called WordTree_Game
+cd WordTree_Game                                          # Navigate into the new folder
+git clone https://github.com/jackdpond/WordTree.git       # Clone this git repository
+python3 -m venv venv                                      # Create a virtual environment
+source venv/bin/activate                                  # Activate virtual environment
+pip install -r requirements.txt                           # Install dependencies
 ```
-                     1
-                    / \
-                   2   3
-                  /   / \
-                 4   5   6
+
+### Windows
+```bash
+cd Documents                                              # Navigate to Documents folder
+mkdir WordTree_Game                                       # Make a new folder called WordTree_Game
+cd WordTree_Game                                          # Navigate into the new folder
+git clone https://github.com/jackdpond/WordTree.git       # Clone this git repository
+python -m venv venv                                       # Create a virtual environment
+.\venv\Scripts\activate                                   # Activate virtual environment
+pip install -r requirements.txt                           # Install dependencies
 ```
-The breadth first traversal would be 1-2-3-4-5-6.
 
-### Pre-Order
-Pre-Order is the first of the ‘depth first’ searches. It is a recursive traversal, meaning that the traverser uses the same rule in a nested fashion—or the rule contains an application of itself. The rule is: print a node, then apply the rule to the left child, then apply the rule to the right child. If a node doesn’t have a left child, move the right. If it doesn’t have a right child, then that branch of the algorithm is done and you can move on to a right child higher up or finish.
-
-For this tree:
+## Running the Game
+```bash
+python3 site/server.py                                    # Activate the local server
 ```
-                     1
-                    / \
-                   2   3
-                  /   / \
-                 4   5   6
+Then open http://127.0.0.1:5001 in your browser.
+
+## Game Rules
+To gain points, build a binary tree out of five letters such that different traversals of the tree spell distinct words.
+For detailed rules, see [rules.md](rules.md)
+
+## Project Structure
 ```
-The pre-order traversal would be 1-2-4-3-5-6.
-
-### In-Order Traversal
-This traversal is similar to pre-order, but in a different order. First, apply the rule to the left child of the node, then print the node, then apply the rule to the right child of the node. If a node does not have a left child, print the node then move on to the right child. If a node doesn’t have a right child, then that branch of the algorithm is done and you can move on to a right child node up the tree, or finish.
-
-For this tree:
+WordTree/
+├── site/                  # Web application files
+│   ├── server.py          # Flask server implementation
+│   ├── index.html         # Main game interface
+│   ├── script.js          # Frontend game logic
+│   ├── style.css          # Game styling
+│   └── initialize_game.py # Game initialization utilities
+│
+├── answer_assembly/       # Core game logic and tree generation
+│   ├── Tree.py            # Binary tree implementation
+│   ├── wordtreev2.py      # Main game logic, finding all possible solutions
+│   └── pretty_print_tree.py # Tree visualization utilities
+│
+├── solutions/             # Generated solutions and game data
+├── resources/             # Lists of valid words for different amounts of letters
+├── requirements.txt       # Python dependencies
+└── rules.md               # Game rules and documentation
 ```
-                     1
-                    / \
-                   2   3
-                  /   / \
-                 4   5   6
-```
-The In-Order traversal is 4-2-1-5-3-6. 
 
-##### A note
-this traversal is called ‘In Order’ because when used on a binary *search* tree—a binary tree with an additional rule—this traversal prints the nodes in sorted order.
+The project is organized into several key directories:
+- `site/` contains all web application components, including the Flask server and frontend files
+- `answer_assembly/` houses the core game logic, including the binary tree implementation and word processing
+- `solutions/` stores generated game solutions and data
+- `resources/` contains lists of valid words that count for the game
 
-### Post-Order
-The last traversal is also similar to the previous two, with a predictable tweak. Apply the rule to the left child and the right child before printing the node. This gets a little surprising since all the descendants of a node get printed before it does.
+## Troubleshooting
 
-For this tree:
-```
-                     1
-                    / \
-                   2   3
-                  /   / \
-                 4   5   6
-```
-The Post-Order traversal is 4-2-1-5-6-3-1.
 
-## Gameplay
- The player is given a list of letters, usually in alphabetical order. Their goal is to arrange the letters in a binary tree so that different traversals yield different valid words. For sets of four or five letters, it is sometimes possible (rarely) to arrange a tree so that three traversals yield three different valid words. Such a tree is worth more points than a tree that only yields two words. 
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-For example: 
-letters: ADEELPS
-these may be arranged like so:
-```
-                     p
-                    / \
-                   l   s
-                  / \   \
-                 e   a   e
-                          \
-                           d
-```
-pre-order: pleased
-in-order: elapsed
-
-This is one tree the player could make but not the only one! The more trees made, the more points.
-
-## Your challenges:
-1. AEFST
-2. APRST
-3. OPSST
-4. EIMRT
-5. AEMNS
-6. AELRT
-7. CEEPTX
-8. EHORSS
-9. EORRST
-10. ACDEILM
-11. AEENRST
