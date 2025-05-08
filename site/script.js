@@ -4,12 +4,16 @@ const MAX_LEVELS = 7;
 const MAX_NODES = Math.pow(2, MAX_LEVELS) - 1; // 127 nodes for 7 levels
 let tree = Array(7).fill(""); // Start with 3 levels (7 nodes)
 let cursor = 0; // index in tree array
+let discoveredTrees = new Set(); // Track discovered trees
+let totalPossibleTrees = 0; // Total number of possible valid trees
 
 const svg = document.querySelector(".tree-svg");
 const letters = document.querySelectorAll(".letter");
 const nextButton = document.getElementById("next");
 const backButton = document.getElementById("back");
 const resetButton = document.getElementById("reset");
+const progressFill = document.querySelector(".progress-fill");
+const progressText = document.querySelector(".progress-text");
 
 // Add a div for displaying found words
 let wordDisplay = document.createElement('div');
@@ -25,6 +29,11 @@ async function loadRandomWord() {
         const data = await response.json();
         solutions = data;
         currentWord = data.word;
+        
+        // Reset progress tracking
+        discoveredTrees.clear();
+        totalPossibleTrees = solutions.solutions ? solutions.solutions.length : 0;
+        updateProgress();
         
         // Update letter bank with the new word's letters
         const letterBank = document.querySelector('.letter-bank');
@@ -281,7 +290,6 @@ drawTree();
 function arraysMatchTree(treeObj) {
     for (const idx in treeObj) {
         if (tree[+idx] !== treeObj[idx]) {
-            console.log('Mismatch at', idx, ':', tree[+idx], '!==', treeObj[idx]);
             return false;
         }
     }
@@ -326,12 +334,10 @@ function getTraversalIndices(type, n = tree.length) {
 }
 
 async function animateTraversal(indices, color = '#4caf50', delay = 400) {
-    console.log('Starting traversal animation:', {indices, color, delay});
     const nodePositions = getNodePositions();
     let visited = new Set();
     
     for (let i = 0; i < indices.length; i++) {
-        console.log('Animation step:', i);
         drawTree();
         // Draw all previously visited nodes in color
         const svgNS = svg.namespaceURI;
@@ -370,23 +376,12 @@ async function animateTraversal(indices, color = '#4caf50', delay = 400) {
         await new Promise(resolve => setTimeout(resolve, delay));
     }
     
-    console.log('Traversal animation complete');
     // After the traversal, reset all node colors
     drawTree();
 }
 
 function tryCheckAfterInput() {
-    const state = {
-        filledLetters: countFilledLetters(),
-        maxLetters: maxLetters(),
-        isAnimating,
-        isComplete,
-        currentTree: [...tree]
-    };
-    console.log('Checking after input:', JSON.stringify(state, null, 2));
-    
     if (countFilledLetters() === maxLetters()) {
-        console.log('All letters filled, starting animation');
         isAnimating = true;
         isComplete = true;
         drawTree(); // Remove cursor highlight immediately
@@ -395,20 +390,23 @@ function tryCheckAfterInput() {
 }
 
 async function checkAndAnimateSolution() {
-    console.log('Starting solution check with solutions:', JSON.stringify(solutions, null, 2));
-    
     if (!solutions) {
         console.error('No solutions loaded');
         return;
     }
 
     let found = [];
-    console.log('Current tree state:', JSON.stringify(tree, null, 2));
+    const treeString = tree.join('');
+    const isDuplicate = discoveredTrees.has(treeString);
     
     for (const solution of solutions.solutions) {
-        console.log('Checking solution:', JSON.stringify(solution, null, 2));
         if (arraysMatchTree(solution.tree)) {
-            console.log('Found matching solution:', JSON.stringify(solution, null, 2));
+            // Track this tree as discovered
+            if (!isDuplicate) {
+                discoveredTrees.add(treeString);
+                updateProgress();
+            }
+            
             for (const [traversal, word] of Object.entries(solution.traversals)) {
                 const indices = getTraversalIndices(traversal);
                 found.push({word, traversal, indices});
@@ -416,24 +414,29 @@ async function checkAndAnimateSolution() {
         }
     }
 
-    console.log('Found solutions:', JSON.stringify(found, null, 2));
-
     if (found.length) {
         wordDisplay.innerHTML = '';
+        if (isDuplicate) {
+            wordDisplay.innerHTML = '<div style="color: #666; font-size: 1.5rem; margin-bottom: 1rem;">You already found this tree!</div>';
+        }
         for (const {word, traversal, indices} of found) {
-            console.log('Animating solution:', JSON.stringify({word, traversal, indices}, null, 2));
             await animateTraversal(indices, '#4caf50', 400);
             wordDisplay.innerHTML += `<div><b>${word}</b> (${traversal})</div>`;
         }
+        
+        // Check if this was the last tree to find
+        if (discoveredTrees.size === totalPossibleTrees) {
+            // Add a small delay before showing the celebration message
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            wordDisplay.innerHTML += '<div style="color: #4CAF50; font-size: 2rem; margin-top: 1rem; font-weight: bold;">🎉 YOU FOUND ALL THE TREES!! 🎉</div>';
+        }
     } else {
-        console.log('No solutions found, showing all traversals');
         // Animate all four traversals in red, showing the word after each
         const traversals = ['pre-order', 'in-order', 'post-order', 'breadth-first'];
         wordDisplay.innerHTML = '';
         for (const traversal of traversals) {
             const indices = getTraversalIndices(traversal);
             let word = indices.map(i => tree[i] || '').join('');
-            console.log('Animating traversal:', JSON.stringify({traversal, word, indices}, null, 2));
             await animateTraversal(indices, '#c00', 250);
             wordDisplay.innerHTML += `<div style="color:#c00"><b>${word}</b> (${traversal})</div>`;
         }
@@ -441,4 +444,25 @@ async function checkAndAnimateSolution() {
     
     isAnimating = false;
     drawTree();
+}
+
+function updateProgress() {
+    const progress = (discoveredTrees.size / totalPossibleTrees) * 100;
+    progressFill.style.width = `${progress}%`;
+    progressText.textContent = `${discoveredTrees.size}/${totalPossibleTrees} trees found`;
+}
+
+function checkWord() {
+    // ... existing checkWord code ...
+    
+    if (isValid) {
+        // Convert current tree to a string representation for tracking
+        const treeString = tree.join('');
+        if (!discoveredTrees.has(treeString)) {
+            discoveredTrees.add(treeString);
+            updateProgress();
+        }
+    }
+    
+    // ... rest of existing checkWord code ...
 }

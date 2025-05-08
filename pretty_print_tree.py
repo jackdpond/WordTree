@@ -32,7 +32,6 @@ def get_left(tup, tree):
     node, value = tup
     left_child = (node * 2) + 1
     if left_child in tree.keys():
-        print(f'get_left--parent: {tup}, left_child: {left_child}, {tree[left_child]}')
         return (left_child, tree[left_child])
     else:
         return None
@@ -42,7 +41,6 @@ def get_right(tup, tree):
     node, value = tup
     right_child = (node * 2) + 2
     if right_child in tree.keys():
-        print(f'get_right--parent: {tup}, right_child: {right_child}, {tree[right_child]}')
         return (right_child, tree[right_child])
     else:
         return None
@@ -52,17 +50,14 @@ def pretty_print_tree(tree):
     result = ''
     traversal = deque()
     traversal.append(list(tree.items())[0])
-    print(traversal)
     height = tree_height(tree)
-    print(f'height is {height}')
+    
     for l in range(height):
         spaces_before = num_spaces_for_level(height, l)
         spaces_in_between = (2*spaces_before)+1
-        print(f'level: {l}, spaces between: {spaces_in_between}')
         result += print_spaces(spaces_before)
 
         nodes = num_nodes_in_level(l)
-        print(f'nodes: {nodes}')
         print_spaces_before = False
         for ni in range(nodes):
             if print_spaces_before:
@@ -82,4 +77,4 @@ def pretty_print_tree(tree):
         if (l != height -1):
             result += "\n"
     result += "\n"
-    return(result)
+    return result

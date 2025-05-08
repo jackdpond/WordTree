@@ -21,8 +21,6 @@ def initialize_game():
     # Write to solution.json in the site directory
     with open('site/solution.json', 'w') as f:
         json.dump(solution_data, f, indent=4)
-    
-    print(f"Game initialized with word: {word_key}")
 
 if __name__ == "__main__":
     initialize_game() 
