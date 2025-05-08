@@ -2,9 +2,7 @@
 
 A new word game involving binary trees, anagrams, and tree traversals. This repo contains the code used to find all possible solutions for words within a given bank of words of the same length.
 
-## Overview
-[Add screenshot/GIF here]
-[Brief description of game mechanics and features]
+![Demo](resources/word_tree_demo.gif "Game Demo")
 
 ## Prerequisites
 - Python 3.x
