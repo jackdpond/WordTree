@@ -39,8 +39,11 @@ async function loadRandomWord() {
         const letterBank = document.querySelector('.letter-bank');
         letterBank.innerHTML = ''; // Clear existing letters
         
-        // Add letters from the word
-        [...currentWord].forEach(letter => {
+        // Sort letters alphabetically before adding them
+        const sortedLetters = [...currentWord].sort();
+        
+        // Add letters from the sorted word
+        sortedLetters.forEach(letter => {
             const button = document.createElement('button');
             button.className = 'letter';
             button.textContent = letter;
@@ -444,6 +447,28 @@ async function checkAndAnimateSolution() {
     
     isAnimating = false;
     drawTree();
+
+    // Add click and keypress listeners to reset the tree
+    const resetHandler = () => {
+        // Remove the listeners to prevent multiple resets
+        document.removeEventListener('click', resetHandler);
+        document.removeEventListener('keydown', resetHandler);
+        
+        // Reset the tree but keep the same letters
+        tree = Array(7).fill("");
+        cursor = 0;
+        isComplete = false;
+        drawTree();
+        wordDisplay.innerHTML = '';
+        
+        // Re-enable all letter buttons
+        const letters = document.querySelectorAll('.letter');
+        letters.forEach(btn => btn.disabled = false);
+    };
+
+    // Add listeners for both click and keypress
+    document.addEventListener('click', resetHandler);
+    document.addEventListener('keydown', resetHandler);
 }
 
 function updateProgress() {
