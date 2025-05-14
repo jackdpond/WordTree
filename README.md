@@ -84,10 +84,6 @@ The project is organized into several key directories:
 - `solutions/` stores generated game solutions and data
 - `resources/` contains lists of valid words that count for the game
 
-## Development
-
-## Troubleshooting
-
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
