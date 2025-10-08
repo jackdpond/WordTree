@@ -23,9 +23,9 @@ document.querySelector('.game-container').appendChild(wordDisplay);
 let solutions = null;
 let currentWord = null;
 
-async function loadRandomWord() {
+async function loadDailyWord() {
     try {
-        const response = await fetch('/api/random-word');
+        const response = await fetch('/api/daily-word');
         const data = await response.json();
         solutions = data;
         currentWord = data.word;
@@ -70,11 +70,29 @@ async function loadRandomWord() {
         
         // Clear word display
         wordDisplay.innerHTML = '';
+        
+        // Display daily information
+        if (data.date && data.day_number) {
+            const dailyInfo = document.createElement('div');
+            dailyInfo.className = 'daily-info';
+            dailyInfo.innerHTML = `
+                <div style="text-align: center; margin-bottom: 1rem; color: #666;">
+                    <h3>WordTree #${data.day_number}</h3>
+                    <p>${new Date(data.date).toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    })}</p>
+                </div>
+            `;
+            wordDisplay.appendChild(dailyInfo);
+        }
 
         // Reattach event listeners to the new buttons
         attachEventListeners();
     } catch (error) {
-        console.error('Error loading random word:', error);
+        console.error('Error loading daily word:', error);
     }
 }
 
@@ -157,8 +175,8 @@ function attachEventListeners() {
     });
 }
 
-// Load a random word when the page loads
-loadRandomWord();
+// Load today's daily word when the page loads
+loadDailyWord();
 
 let isAnimating = false;
 let isComplete = false;
