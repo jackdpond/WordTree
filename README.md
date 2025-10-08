@@ -1,89 +1,42 @@
-# WordTree
+# WordTree - Daily Puzzle
 
-A new word game involving binary trees, anagrams, and tree traversals. This repo contains the code used to find all possible solutions for words within a given bank of words of the same length.
+A daily web-based puzzle game where players build binary trees using letter combinations and discover valid words through tree traversals. Like Wordle, but with binary trees!
 
-## Table of Contents
-- [Overview](#overview)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-  - [Unix/macOS](#unixmacos)
-  - [Windows](#windows)
-- [Running the Game](#running-the-game)
-- [Game Rules](#game-rules)
-- [Project Structure](#project-structure)
-- [Development](#development)
-- [Troubleshooting](#troubleshooting)
-- [License](#license)
+## How to Play
 
-## Demo
+1. Each day features a new word and its anagrams
+2. Build a binary tree by placing letters in tree nodes
+3. The game checks if your tree structure can produce valid words through different traversal methods:
+   - Pre-order traversal
+   - In-order traversal  
+   - Post-order traversal
+   - Breadth-first traversal
+4. Find all possible valid trees to complete the daily puzzle!
+5. The same word is used for everyone on the same day - just like Wordle!
 
-![Demo](resources/word_tree_demo.gif "Game Demo")
+## Deployment on Render
 
-## Prerequisites
-- Python 3.x
-- pip
+This application is configured for deployment on Render:
 
-## Installation
+- `app.py` - Main Flask application entry point
+- `Procfile` - Tells Render how to run the application
+- `requirements.txt` - Python dependencies
+- `runtime.txt` - Specifies Python version
 
-### Unix/macOS
+## Local Development
+
+To run locally:
+
 ```bash
-cd Documents                                              # Navigate to Documents folder
-mkdir WordTree_Game                                       # Make a new folder called WordTree_Game
-cd WordTree_Game                                          # Navigate into the new folder
-git clone https://github.com/jackdpond/WordTree.git       # Clone this git repository
-python3 -m venv venv                                      # Create a virtual environment
-source venv/bin/activate                                  # Activate virtual environment
-pip install -r requirements.txt                           # Install dependencies
+pip install -r requirements.txt
+python app.py
 ```
 
-### Windows
-```bash
-cd Documents                                              # Navigate to Documents folder
-mkdir WordTree_Game                                       # Make a new folder called WordTree_Game
-cd WordTree_Game                                          # Navigate into the new folder
-git clone https://github.com/jackdpond/WordTree.git       # Clone this git repository
-python -m venv venv                                       # Create a virtual environment
-.\venv\Scripts\activate                                   # Activate virtual environment
-pip install -r requirements.txt                           # Install dependencies
-```
-
-## Running the Game
-```bash
-python3 site/server.py                                    # Activate the local server
-```
-Then open http://127.0.0.1:5001 in your browser.
-
-## Game Rules
-To gain points, build a binary tree out of five letters such that different traversals of the tree spell distinct words.
-For detailed rules, see [rules.md](rules.md)
+The application will be available at `http://localhost:5000`
 
 ## Project Structure
-```
-WordTree/
-├── site/                  # Web application files
-│   ├── server.py          # Flask server implementation
-│   ├── index.html         # Main game interface
-│   ├── script.js          # Frontend game logic
-│   ├── style.css          # Game styling
-│   └── initialize_game.py # Game initialization utilities
-│
-├── answer_assembly/       # Core game logic and tree generation
-│   ├── Tree.py            # Binary tree implementation
-│   ├── wordtreev2.py      # Main game logic, finding all possible solutions
-│   └── pretty_print_tree.py # Tree visualization utilities
-│
-├── solutions/             # Generated solutions and game data
-├── resources/             # Lists of valid words for different amounts of letters
-├── requirements.txt       # Python dependencies
-└── rules.md               # Game rules and documentation
-```
 
-The project is organized into several key directories:
-- `site/` contains all web application components, including the Flask server and frontend files
-- `answer_assembly/` houses the core game logic, including the binary tree implementation and word processing
-- `solutions/` stores generated game solutions and data
-- `resources/` contains lists of valid words that count for the game
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+- `WordTree/site/` - Frontend HTML, CSS, and JavaScript files
+- `WordTree/solutions/` - Pre-computed word solutions for different word lengths
+- `WordTree/resources/` - Word lists for different lengths
+- `WordTree/answer_assembly/` - Core game logic and tree generation algorithms
